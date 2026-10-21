@@ -12,3 +12,5 @@ notebooks/*.py.bak
 notebooks/**/sb_*.py
 notebooks/**/ref_policy.py
 notebooks/**/sb_eval_worker.py
+runs/
+*.pt

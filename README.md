@@ -28,6 +28,7 @@ Nhiệm vụ: viết **một** policy điều khiển HVAC chạy được trên
 | [docs/03-baselines.md](docs/03-baselines.md) | Điểm baseline trên 30 kịch bản train, tốc độ simulator |
 | [docs/04-reference-notebook.md](docs/04-reference-notebook.md) | Phân tích notebook 0,01708 (PI theo zone, giữ AHU, bug economizer) |
 | [docs/05-plan.md](docs/05-plan.md) | Kế hoạch 4 giai đoạn: việc cần làm, cổng quyết định, ngân sách tính toán |
+| [docs/06-rl.md](docs/06-rl.md) | Thiết kế RL: đặc trưng theo thực thể, residual PPO, BC/DAgger, cách chạy, thời gian |
 
 ## Notebooks
 
@@ -42,12 +43,24 @@ Mỗi notebook tự chứa toàn bộ code (ghi ra `sb_*.py` bằng `%%writefile
 
 Notebook được sinh từ `sbx/` bằng `python notebooks/build_notebooks.py`; sửa code trong `sbx/` rồi build lại.
 
+## RL
+
+[`sbx/rl/`](sbx/rl) · [docs/06-rl.md](docs/06-rl.md). Residual PPO trên controller 0,01582 (mạng khởi tạo = đúng controller), và BC/DAgger cho mạng chạy độc lập. Một mạng (83k tham số, ~1 ms/bước) dùng chung cho mọi zone/AHU nên chạy được mọi tòa nhà.
+
+```bash
+pip install -r requirements-rl.txt
+python scripts/train_rl.py ppo --workers 4 --iters 200 --out runs/ppo_residual
+python scripts/train_rl.py eval runs/ppo_residual/best.pt --workers 4
+```
+
 ## Scripts
 
 | File | Việc |
 |---|---|
 | [scripts/baseline_scores.py](scripts/baseline_scores.py) | Tính điểm leaderboard của các baseline từ `baseline_returns.json` |
 | [scripts/time_sim.py](scripts/time_sim.py) | Đo thời gian mỗi bước của simulator |
+| [scripts/train_rl.py](scripts/train_rl.py) | Huấn luyện PPO / BC, chấm checkpoint trên 30 kịch bản |
+| [scripts/make_rl_scenarios.py](scripts/make_rl_scenarios.py) | Sinh thêm kịch bản (tòa nhà × đoạn thời tiết chưa dùng) cho RL |
 
 ## Cài môi trường
 

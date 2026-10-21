@@ -56,6 +56,20 @@ def scenario_dir(scenario) -> Path:
     return find_data_root() / "smart_buildings" / "training_scenarios" / scenario
 
 
-def training_scenarios() -> list:
+def all_scenarios() -> list:
+    """Every scenario folder present, including ones you generated."""
     root = find_data_root() / "smart_buildings" / "training_scenarios"
     return sorted(f"{d.parent.name}/{d.name}" for d in root.glob("*/*") if (d / "config.gin").exists())
+
+
+def training_scenarios() -> list:
+    """The 30 official training scenarios (from training_set.yaml when present)."""
+    present = all_scenarios()
+    manifest = find_data_root() / "smart_buildings" / "training_set.yaml"
+    if manifest.exists():
+        import yaml
+        pairs = yaml.safe_load(manifest.read_text()).get("scenarios", [])
+        official = {f"{p['building']}/{p['weather']}" for p in pairs}
+        if official:
+            return [s for s in present if s in official]
+    return present

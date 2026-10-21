@@ -255,7 +255,10 @@ def make(spec: str, building_meta_data, action_spec):
     name, overrides = parse_spec(spec)
     if name in ("bang_bang", "pid_water"):
         return _baseline(name)(building_meta_data, action_spec)
-    if name.startswith("null_"):
+    if name == "rl":  # trained network, e.g. "rl:WEIGHTS='runs/ppo/best.pt'"
+        from sbx.rl.policy import NeuralPolicy
+        cls, base = NeuralPolicy, {}
+    elif name.startswith("null_"):
         cls, base = NudgedPolicy, {"NUDGE": int(name.split("_")[1]) * 1e-5}
     elif name in REGISTRY:
         cls, base = REGISTRY[name]
