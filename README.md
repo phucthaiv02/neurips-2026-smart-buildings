@@ -31,9 +31,16 @@ Nhiệm vụ: viết **một** policy điều khiển HVAC chạy được trên
 
 ## Notebooks
 
-| File | Việc |
-|---|---|
-| [notebooks/00_eval_reference_30.ipynb](notebooks/00_eval_reference_30.ipynb) | Giai đoạn 0: chạy policy tham chiếu (public LB 0,01582) trên 30 kịch bản train, tách thiệt hại, đo nhiễu, kiểm tra thời gian |
+Mỗi notebook tự chứa toàn bộ code (ghi ra `sb_*.py` bằng `%%writefile`) và chạy độc lập: local cạnh bản clone starter kit, hoặc trên Kaggle với dữ liệu cuộc thi.
+
+| File | Việc | Ra |
+|---|---|---|
+| [00_eval_reference_30.ipynb](notebooks/00_eval_reference_30.ipynb) | Policy tham chiếu (LB 0,01582) trên 30 kịch bản, nhóm null, đo thời gian | Điểm, tách thành phần, mức nhiễu |
+| [01_candidates_screen.ipynb](notebooks/01_candidates_screen.ipynb) | Sàng mọi version so với tham chiếu, xác nhận 3 version tốt nhất trên 30 kịch bản | Điểm từng version |
+| [02_param_search.ipynb](notebooks/02_param_search.ipynb) | CMA-ES 11 tham số, kiểm tra trên 24 kịch bản giữ lại | Điểm bộ tham số tốt nhất |
+| [policies/*.ipynb](notebooks/policies) | Mỗi version một notebook: chấm 30 kịch bản; trên Kaggle chạy inference server để **Submit** | Điểm train + điểm LB |
+
+Notebook được sinh từ `sbx/` bằng `python notebooks/build_notebooks.py`; sửa code trong `sbx/` rồi build lại.
 
 ## Scripts
 

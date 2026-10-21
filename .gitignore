@@ -5,7 +5,10 @@ starter-kit/
 results/
 *.png
 .DS_Store
-results/
 eval_ref/
 notebooks/eval_ref/
 notebooks/*.py.bak
+# files written by the self-contained notebooks
+notebooks/**/sb_*.py
+notebooks/**/ref_policy.py
+notebooks/**/sb_eval_worker.py
