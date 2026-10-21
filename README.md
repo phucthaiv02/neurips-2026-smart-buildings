@@ -29,6 +29,12 @@ Nhiệm vụ: viết **một** policy điều khiển HVAC chạy được trên
 | [docs/04-reference-notebook.md](docs/04-reference-notebook.md) | Phân tích notebook 0,01708 (PI theo zone, giữ AHU, bug economizer) |
 | [docs/05-plan.md](docs/05-plan.md) | Kế hoạch 4 giai đoạn: việc cần làm, cổng quyết định, ngân sách tính toán |
 
+## Notebooks
+
+| File | Việc |
+|---|---|
+| [notebooks/00_eval_reference_30.ipynb](notebooks/00_eval_reference_30.ipynb) | Giai đoạn 0: chạy policy tham chiếu (public LB 0,01582) trên 30 kịch bản train, tách thiệt hại, đo nhiễu, kiểm tra thời gian |
+
 ## Scripts
 
 | File | Việc |

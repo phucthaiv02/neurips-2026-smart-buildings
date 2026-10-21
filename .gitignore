@@ -5,3 +5,7 @@ starter-kit/
 results/
 *.png
 .DS_Store
+results/
+eval_ref/
+notebooks/eval_ref/
+notebooks/*.py.bak
