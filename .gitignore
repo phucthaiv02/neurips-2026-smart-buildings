@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+starter-kit/
+results/
+*.png
+.DS_Store

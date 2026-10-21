@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<title>Lộ trình Smart Buildings 2026</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one column of commissioning-sheet panels; a thermal palette (slate → cold → comfort → hot) tracks the four phases */
+:root{
+  --bg:#eef1f4; --surface:#ffffff; --fg:#121c26; --muted:#5a6876; --line:#d3dbe3; --grid:#e4e9ee;
+  --slate:#677689; --cold:#2f6fb3; --comfort:#1f8a63; --hot:#d9551c; --cell0:#edf1f4; --on-hot:#ffffff;
+  --f-display:"Archivo","Be Vietnam Pro",system-ui,sans-serif;
+  --f-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1318; --surface:#141c23; --fg:#e4eaef; --muted:#93a1ad; --line:#263039; --grid:#1c252d;
+  --slate:#8d9bab; --cold:#6aa5e6; --comfort:#4cc28e; --hot:#f2814e; --cell0:#1a232b; --on-hot:#111619; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1318; --surface:#141c23; --fg:#e4eaef; --muted:#93a1ad; --line:#263039; --grid:#1c252d;
+  --slate:#8d9bab; --cold:#6aa5e6; --comfort:#4cc28e; --hot:#f2814e; --cell0:#1a232b; --on-hot:#111619; color-scheme:dark}
+
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1120px;margin:0 auto;display:grid;gap:34px;padding-block:28px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{display:grid;gap:14px;min-width:0}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-stretch:118%;font-weight:850;font-size:clamp(30px,5.4vw,50px);line-height:1.02;letter-spacing:-.015em;margin:6px 0 8px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--hot)}
+h2{font-family:var(--f-display);font-stretch:112%;font-weight:760;font-size:21px;line-height:1.2;margin:0;text-wrap:balance}
+h3{font-size:14px;font-weight:600;margin:0}
+.lede{color:var(--muted);margin:0;max-width:62ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{display:inline-flex;align-items:baseline;gap:8px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:13px}
+.chip b{font-family:var(--f-mono);font-weight:600;font-variant-numeric:tabular-nums}
+.chip.hot{border-color:var(--hot)} .chip.hot b{color:var(--hot)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0;display:grid;gap:8px;align-content:start}
+.cap{font-size:12px;color:var(--muted);margin:0}
+.scroll{overflow-x:auto}
+.chart{width:100%;min-width:0}
+svg{display:block}
+svg text{font-family:var(--f-body);font-size:12px}
+.t{fill:var(--fg)} .tm{fill:var(--muted)} .mono{font-family:var(--f-mono)} .s11{font-size:11px} .b{font-weight:600}
+.gl{stroke:var(--grid);stroke-width:1} .ax{stroke:var(--line);stroke-width:1}
+
+/* phases */
+.phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:1020px){.phases{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.phases{grid-template-columns:1fr}}
+.phase{--c:var(--slate);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.ph-head{display:flex;gap:12px;align-items:center}
+.pnum{font-family:var(--f-display);font-stretch:100%;font-weight:900;font-size:40px;line-height:.9;color:var(--c);font-variant-numeric:tabular-nums}
+.ph-head h3{font-family:var(--f-display);font-stretch:108%;font-size:16px;font-weight:720;line-height:1.2}
+.dates{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.meter{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.meter span{flex:1;height:6px;border-radius:3px;background:var(--grid);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--c);transition:width .25s}
+@media (prefers-reduced-motion:reduce){.meter i{transition:none}}
+.tasks{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.task{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;line-height:1.35;cursor:pointer}
+.task input{appearance:none;-webkit-appearance:none;margin:1px 0 0;width:17px;height:17px;flex:none;border:1.5px solid var(--c);border-radius:4px;background:var(--surface);display:grid;place-content:center;cursor:pointer}
+.task input:checked{background:var(--c)}
+.task input:checked::after{content:"";width:8px;height:4px;border:2px solid var(--surface);border-top:0;border-right:0;transform:translate(0,-1px) rotate(-45deg)}
+.task input:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+.task input:checked + span{color:var(--muted);text-decoration:line-through}
+.foot{margin-top:auto;display:grid;gap:6px;padding-top:10px;border-top:1px dashed var(--line);font-size:12.5px}
+.row{display:flex;gap:8px;align-items:baseline}
+.tag{flex:none;font-family:var(--f-mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;padding:2px 6px;border-radius:4px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent)}
+.fork{display:grid;gap:3px}
+.fork div{display:flex;gap:6px;align-items:baseline}
+.fork .y{color:var(--comfort);font-weight:700} .fork .n{color:var(--hot);font-weight:700}
+
+/* teacher → student flow */
+.flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:stretch;gap:6px}
+.node{--c:var(--slate);border:1.5px solid var(--c);border-radius:10px;padding:12px;background:color-mix(in srgb,var(--c) 7%,var(--surface));min-width:0;display:grid;gap:4px;align-content:start}
+.node b{font-size:14px;line-height:1.25}
+.node small{font-size:12px;color:var(--muted);line-height:1.35}
+.node .tag{justify-self:start}
+.arrow{align-self:center;justify-self:center;color:var(--muted);font-size:20px;line-height:1}
+@media (max-width:860px){.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}}
+
+/* compute + questions */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:700px){.tiles{grid-template-columns:1fr}}
+.big{font-family:var(--f-display);font-stretch:112%;font-weight:820;font-size:30px;line-height:1.05;font-variant-numeric:tabular-nums}
+.qs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:700px){.qs{grid-template-columns:1fr}}
+.qs li{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.4}
+.qmark{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:900;color:var(--hot);border:1.5px solid var(--hot)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+footer{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px}
+a{color:var(--cold)}
+a:focus-visible{outline:2px solid var(--cold);outline-offset:2px}
+</style>
+
+<main class="wrap">
+  <header>
+    <div class="eyebrow">NeurIPS 2026 · Kaggle · Điều khiển HVAC</div>
+    <h1>Lộ trình Smart Buildings 2026: kéo điểm <em>về 0</em></h1>
+    <p class="lede">Một policy cho mọi tòa nhà chưa thấy. Điểm là thiệt hại trung bình mỗi bước, càng thấp càng tốt.</p>
+    <div class="chips">
+      <span class="chip hot">Mục tiêu public LB <b>&lt; 0,017</b></span>
+      <span class="chip">Round One 13/11 <b id="d-r1">–</b></span>
+      <span class="chip">Workshop Paris 13/12</span>
+      <span class="chip">Hạn cuối 15/01/2027 <b id="d-fin">–</b></span>
+    </div>
+  </header>
+
+  <section aria-labelledby="h-start">
+    <h2 id="h-start">Xuất phát điểm</h2>
+    <div class="grid2">
+      <div class="panel">
+        <h3>Baseline của ban tổ chức</h3>
+        <div class="chart" id="c-base"></div>
+        <p class="cap">Trung bình 30 kịch bản train, tính từ baseline_returns.json.</p>
+      </div>
+      <div class="panel">
+        <h3>Notebook tốt nhất hiện có, qua từng bản</h3>
+        <div class="chart" id="c-lb"></div>
+        <p class="cap">Public LB, notebook “Smart Buildings Probe DS K07”.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-road">
+    <h2 id="h-road">Lộ trình</h2>
+    <div class="panel"><div class="scroll"><div id="c-gantt"></div></div></div>
+  </section>
+
+  <section aria-labelledby="h-phase">
+    <h2 id="h-phase">Việc cần làm</h2>
+    <div class="phases">
+      <article class="phase" style="--c:var(--slate)" data-phase="0">
+        <div class="ph-head"><div class="pnum">0</div><div><h3>Nền đo lường</h3><div class="dates">21–23/10</div></div></div>
+        <div class="meter"><span><i></i></span><em class="m-txt">0/4</em></div>
+        <ul class="tasks">
+          <li><label class="task"><input type="checkbox" id="p0-1"><span>Chạy notebook 0,017 trên 30 kịch bản</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p0-2"><span>Tách thiệt hại: tiện nghi · năng lượng · carbon</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p0-3"><span>Bộ chấm song song + nhóm null</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p0-4"><span>Xếp kịch bản theo phần đóng góp vào điểm</span></label></li>
+        </ul>
+        <div class="foot"><div class="row"><span class="tag">Ra</span><span>Bảng điểm + mức nhiễu</span></div></div>
+      </article>
+
+      <article class="phase" style="--c:var(--cold)" data-phase="1">
+        <div class="ph-head"><div class="pnum">1</div><div><h3>Tune tham số</h3><div class="dates">24/10–4/11</div></div></div>
+        <div class="meter"><span><i></i></span><em class="m-txt">0/5</em></div>
+        <ul class="tasks">
+          <li><label class="task"><input type="checkbox" id="p1-1"><span>Gom ~10 tham số thành 1 vector</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p1-2"><span>Sinh thêm tòa nhà, giữ Minneapolis để kiểm tra</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p1-3"><span>CMA-ES: 1 bộ chung cho mọi tòa</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p1-4"><span>Tune riêng từng kịch bản = “thầy”</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p1-5"><span>Lọc bằng episode 7 ngày, chấm lại 30 ngày</span></label></li>
+        </ul>
+        <div class="foot">
+          <div class="row"><span class="tag">Cổng</span><span>Chung so với riêng</span></div>
+          <div class="fork"><div><span class="y">↗</span><span>Chênh lớn → làm GĐ 2</span></div><div><span class="n">↘</span><span>Chênh nhỏ → sửa logic controller</span></div></div>
+        </div>
+      </article>
+
+      <article class="phase" style="--c:var(--comfort)" data-phase="2">
+        <div class="ph-head"><div class="pnum">2</div><div><h3>Imitation + nộp Round One</h3><div class="dates">5–13/11</div></div></div>
+        <div class="meter"><span><i></i></span><em class="m-txt">0/5</em></div>
+        <ul class="tasks">
+          <li><label class="task"><input type="checkbox" id="p2-1"><span>Đặc trưng: số zone, AHU, diện tích, nhiệt độ ngoài, tốc độ nóng/nguội</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p2-2"><span>Mô hình đoán tham số từ đặc trưng</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p2-3"><span>Thử trên tòa nhà + thời tiết chưa thấy</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p2-4"><span>Kiểm tra thời gian ≤ 10× bang-bang, nộp Kaggle</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p2-5"><span>Viết bài poster</span></label></li>
+        </ul>
+        <div class="foot"><div class="row"><span class="tag">Ra</span><span>Bài nộp + poster trước 13/11</span></div></div>
+      </article>
+
+      <article class="phase" style="--c:var(--hot)" data-phase="3">
+        <div class="ph-head"><div class="pnum">3</div><div><h3>Policy nơ-ron</h3><div class="dates">14/11–10/01</div></div></div>
+        <div class="meter"><span><i></i></span><em class="m-txt">0/5</em></div>
+        <ul class="tasks">
+          <li><label class="task"><input type="checkbox" id="p3-1"><span>Mạng dùng chung theo zone và AHU</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p3-2"><span>BC → DAgger từ controller tốt nhất</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p3-3"><span>Residual RL: nhắm năng lượng + carbon</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p3-4"><span>Tuỳ chọn: thầy “nhìn trước tương lai”</span></label></li>
+          <li><label class="task"><input type="checkbox" id="p3-5"><span>Distill cho vừa giới hạn thời gian</span></label></li>
+        </ul>
+        <div class="foot">
+          <div class="row"><span class="tag">Cổng</span><span>Có vượt thầy không?</span></div>
+          <div class="fork"><div><span class="y">↗</span><span>Có → nộp bản nơ-ron</span></div><div><span class="n">↘</span><span>Không → giữ bài GĐ 2</span></div></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-flow">
+    <h2 id="h-flow">Chuỗi thầy → trò</h2>
+    <div class="flow" role="list">
+      <div class="node" role="listitem" style="--c:var(--cold)"><span class="tag">GĐ 1</span><b>Controller có tham số</b><small>PI theo zone + giữ AHU, ~10 núm vặn</small></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node" role="listitem" style="--c:var(--cold)"><span class="tag">Thầy · GĐ 1</span><b>Tune riêng từng kịch bản</b><small>Biết đáp án, không nộp được</small></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node" role="listitem" style="--c:var(--comfort)"><span class="tag">Trò · GĐ 2</span><b>Mô hình đoán tham số</b><small>Chỉ nhìn thứ policy được thấy</small></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node" role="listitem" style="--c:var(--hot)"><span class="tag">GĐ 3</span><b>Policy nơ-ron</b><small>Học bắt chước bằng BC / DAgger</small></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="node" role="listitem" style="--c:var(--hot)"><span class="tag">GĐ 3</span><b>Residual RL</b><small>Sửa nhỏ để vượt thầy</small></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-rules">
+    <h2 id="h-rules">Luật điểm số cần nhớ</h2>
+    <div class="grid2">
+      <div class="panel">
+        <h3>Fairbanks: 20% số kịch bản, 40% số điểm</h3>
+        <div class="chart" id="c-share"></div>
+        <div class="legend" id="lg-share"></div>
+        <p class="cap">Trung bình thô, không chuẩn hóa. Sửa kịch bản tệ nhất trước.</p>
+      </div>
+      <div class="panel">
+        <h3>Điểm theo kịch bản</h3>
+        <div class="chart" id="c-heat"></div>
+        <p class="cap">Bản v5 của notebook (trước PI theo zone), train. Đậm hơn = tệ hơn.</p>
+      </div>
+      <div class="panel">
+        <h3>Phạt tiện nghi không có trần</h3>
+        <div class="chart" id="c-tail"></div>
+        <p class="cap">Minh hoạ dạng đường, không theo tỉ lệ thật. Một zone hỏng có thể kéo cả episode.</p>
+      </div>
+      <div class="panel">
+        <h3>Thay đổi nào là thật, cái nào là nhiễu</h3>
+        <div class="chart" id="c-noise"></div>
+        <p class="cap">Pilot trên building_train_8, 3 khí hậu. Dải xám: nhiễu 1–6% của nhóm null.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-cpu">
+    <h2 id="h-cpu">Ngân sách tính toán</h2>
+    <div class="tiles">
+      <div class="panel"><div class="eyebrow">1 episode (30 ngày)</div><div class="big">6–14 phút</div><p class="cap">1 nhân CPU, tòa 39–85 zone</p></div>
+      <div class="panel"><div class="eyebrow">Tune riêng 30 × 100 lần</div><div class="big">≈ 400 giờ</div><p class="cap">≈ 100 giờ nếu lọc bằng episode 7 ngày</p></div>
+      <div class="panel"><div class="eyebrow">RL 10 triệu bước</div><div class="big">≈ 190 giờ</div><p class="cap">Cho 1 lần chạy, chưa tính thử lại</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-q">
+    <h2 id="h-q">Còn phải trả lời</h2>
+    <ul class="qs">
+      <li><span class="qmark">?</span><span>Có bao nhiêu nhân CPU / GPU để chạy?</span></li>
+      <li><span class="qmark">?</span><span>Simulator có sao chép trạng thái được không?</span></li>
+      <li><span class="qmark">?</span><span>Policy PI (744 s/episode trên Kaggle) có lọt giới hạn 10× bang-bang?</span></li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Nguồn:</span>
+    <a href="https://arxiv.org/abs/2610.18511" target="_blank" rel="noopener">Bài báo cuộc thi</a>
+    <a href="https://smart-buildings-2026.github.io/competition/" target="_blank" rel="noopener">Trang chính thức</a>
+    <a href="https://github.com/smart-buildings-2026/starter-kit" target="_blank" rel="noopener">Starter kit</a>
+    <a href="https://www.kaggle.com/code/malyshevdanil/smart-buildings-probe-ds-k07" target="_blank" rel="noopener">Notebook 0,017</a>
+    <a href="https://www.kaggle.com/competitions/neurips-2026-smart-buildings" target="_blank" rel="noopener">Kaggle</a>
+  </footer>
+</main>
+
+<script>
+(function(){
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (tag, attrs, text) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  };
+  const fill = (e, c) => { e.style.fill = c; return e; };
+  const fmt = (v, d) => v.toFixed(d).replace('.', ',');
+  const svgFor = (host, w, h, label) => {
+    host.textContent = '';
+    const s = el('svg', {viewBox: `0 0 ${w} ${h}`, width: w, height: h, role: 'img', 'aria-label': label});
+    host.appendChild(s);
+    return s;
+  };
+  const charts = [];
+  const chart = (id, fn) => {
+    const host = document.getElementById(id);
+    const run = () => { const w = Math.max(280, Math.floor(host.clientWidth)); fn(host, w); };
+    charts.push(run);
+    if ('ResizeObserver' in window) {
+      let last = 0;
+      new ResizeObserver(() => { const w = Math.floor(host.clientWidth); if (w !== last) { last = w; run(); } }).observe(host);
+    }
+    run();
+  };
+
+  // countdown
+  const daysTo = d => Math.ceil((new Date(d + 'T23:59:00Z') - Date.now()) / 864e5);
+  const r1 = daysTo('2026-11-13'), fin = daysTo('2027-01-15');
+  document.getElementById('d-r1').textContent = r1 > 0 ? `còn ${r1} ngày` : 'đã qua';
+  document.getElementById('d-fin').textContent = fin > 0 ? `còn ${fin} ngày` : 'đã qua';
+
+  // 1. baselines (train)
+  chart('c-base', (host, w) => {
+    const rows = [['bang_bang', .2252], ['pid', .0674], ['fixed_setpoint', .0659], ['pid_water', .0541], ['Chọn đúng baseline', .0473]];
+    const L = Math.min(138, w * .36), R = 56, top = 4, rh = 30, h = top + rows.length * rh + 22;
+    const s = svgFor(host, w, h, 'Điểm trung bình của các baseline trên 30 kịch bản train');
+    const x = v => L + (w - L - R) * v / .24;
+    [0, .05, .1, .15, .2].forEach(t => {
+      s.append(el('line', {x1: x(t), x2: x(t), y1: top, y2: top + rows.length * rh, class: 'gl'}));
+      s.append(el('text', {x: x(t), y: h - 5, 'text-anchor': 'middle', class: 'tm mono s11'}, fmt(t, 2)));
+    });
+    rows.forEach(([n, v], i) => {
+      const y = top + i * rh;
+      const oracle = i === 4, best = n === 'pid_water';
+      s.append(el('text', {x: L - 8, y: y + rh / 2 + 4, 'text-anchor': 'end', class: oracle ? 'tm' : 't mono s11'}, n));
+      s.append(fill(el('rect', {x: L, y: y + 7, width: Math.max(1, x(v) - L), height: rh - 14, rx: 3}),
+        best ? 'var(--cold)' : oracle ? 'color-mix(in srgb, var(--cold) 38%, var(--surface))' : 'var(--slate)'));
+      s.append(el('text', {x: x(v) + 6, y: y + rh / 2 + 4, class: 't mono s11' + (best ? ' b' : '')}, fmt(v, 4)));
+    });
+  });
+
+  // 2. notebook progression (public LB)
+  chart('c-lb', (host, w) => {
+    const pts = [['PID gốc', 'v3', .06439], ['giữ AHU', 'v4', .05882], ['giữ 24 h', 'v5', .05195], ['PI theo zone', 'mới nhất', .01708]];
+    const h = 232, pl = 44, pr = 14, top = 22, bot = 44;
+    const s = svgFor(host, w, h, 'Điểm public LB của notebook qua các phiên bản');
+    const bw = (w - pl - pr) / pts.length;
+    const x = i => pl + (i + .5) * bw, y = v => top + (h - top - bot) * (1 - v / .07);
+    [0, .02, .04, .06].forEach(t => {
+      s.append(el('line', {x1: pl, x2: w - pr, y1: y(t), y2: y(t), class: 'gl'}));
+      s.append(el('text', {x: pl - 6, y: y(t) + 4, 'text-anchor': 'end', class: 'tm mono s11'}, fmt(t, 2)));
+    });
+    const area = `${x(0)},${y(0)} ` + pts.map((p, i) => `${x(i)},${y(p[2])}`).join(' ') + ` ${x(pts.length - 1)},${y(0)}`;
+    s.append(fill(el('polygon', {points: area}), 'color-mix(in srgb, var(--cold) 12%, transparent)'));
+    const ln = el('polyline', {points: pts.map((p, i) => `${x(i)},${y(p[2])}`).join(' '), fill: 'none'});
+    ln.style.stroke = 'var(--cold)'; ln.style.strokeWidth = 2.5; s.append(ln);
+    const tl = el('line', {x1: pl, x2: w - pr, y1: y(.017), y2: y(.017), 'stroke-dasharray': '5 4'});
+    tl.style.stroke = 'var(--hot)'; tl.style.strokeWidth = 1.5; s.append(tl);
+    s.append(fill(el('text', {x: pl + 6, y: y(.017) - 6, class: 's11 b'}, 'mức cần vượt'), 'var(--hot)'));
+    pts.forEach((p, i) => {
+      const last = i === pts.length - 1;
+      s.append(fill(el('circle', {cx: x(i), cy: y(p[2]), r: last ? 6 : 4.5}), last ? 'var(--hot)' : 'var(--cold)'));
+      s.append(el('text', {x: x(i), y: y(p[2]) - 11, 'text-anchor': 'middle', class: 't mono s11 b'}, fmt(p[2], 4)));
+      s.append(el('text', {x: x(i), y: h - 24, 'text-anchor': 'middle', class: 't s11'}, p[0]));
+      s.append(el('text', {x: x(i), y: h - 9, 'text-anchor': 'middle', class: 'tm mono s11'}, p[1]));
+    });
+  });
+
+  // 3. gantt
+  chart('c-gantt', (host, cw) => {
+    const W = Math.max(cw, 680), L = 168, R = 18, top = 34, rh = 36;
+    const rows = [
+      {n: '0', name: 'Nền đo lường', s: '2026-10-21', e: '2026-10-24', c: 'var(--slate)', lab: '21–23/10'},
+      {n: '1', name: 'Tune tham số', s: '2026-10-24', e: '2026-11-05', c: 'var(--cold)', lab: '24/10–4/11'},
+      {n: '2', name: 'Imitation + R1', s: '2026-11-05', e: '2026-11-14', c: 'var(--comfort)', lab: '5–13/11'},
+      {n: '3', name: 'Policy nơ-ron', s: '2026-11-14', e: '2027-01-11', c: 'var(--hot)', lab: '14/11–10/01'},
+      {n: '·', name: 'Chốt bài cuối', s: '2027-01-11', e: '2027-01-16', c: null, lab: '11–15/01'}
+    ];
+    const h = top + rows.length * rh + 26;
+    const s = svgFor(host, W, h, 'Lộ trình 4 giai đoạn từ 21/10/2026 đến 15/01/2027');
+    const t0 = +new Date('2026-10-19T00:00:00'), t1 = +new Date('2027-01-17T00:00:00');
+    const X = d => L + (W - L - R) * ((+new Date(d) - t0) / (t1 - t0));
+    const yb = top + rows.length * rh;
+    [['2026-11-01T00:00:00', '1/11'], ['2026-12-01T00:00:00', '1/12'], ['2027-01-01T00:00:00', '1/1']].forEach(([d, lab]) => {
+      s.append(el('line', {x1: X(d), x2: X(d), y1: top - 4, y2: yb, class: 'gl'}));
+      s.append(el('text', {x: X(d), y: h - 6, 'text-anchor': 'middle', class: 'tm mono s11'}, lab));
+    });
+    rows.forEach((r, i) => {
+      const y = top + i * rh;
+      if (i) s.append(el('line', {x1: 0, x2: W, y1: y, y2: y, class: 'gl'}));
+      const lt = el('text', {x: 4, y: y + rh / 2 + 5});
+      const num = el('tspan', {class: 'b'}, r.n + '  '); num.style.fill = r.c || 'var(--muted)';
+      num.style.fontFamily = 'var(--f-display)'; num.style.fontSize = '15px'; num.style.fontWeight = 900;
+      lt.append(num, el('tspan', {class: 't'}, r.name));
+      s.append(lt);
+      const x1 = X(r.s + 'T00:00:00'), x2 = X(r.e + 'T00:00:00'), bw = x2 - x1;
+      const rect = el('rect', {x: x1, y: y + 8, width: bw, height: rh - 16, rx: 4});
+      if (r.c) fill(rect, r.c);
+      else { rect.style.fill = 'none'; rect.style.stroke = 'var(--muted)'; rect.setAttribute('stroke-dasharray', '4 3'); }
+      s.append(rect);
+      if (bw > 120 && r.c) s.append(fill(el('text', {x: x1 + 10, y: y + rh / 2 + 4, class: 'mono s11 b'}, r.lab), 'var(--on-hot)'));
+      else if (x2 + 80 > W) s.append(el('text', {x: x1 - 6, y: y + rh / 2 + 4, 'text-anchor': 'end', class: 'tm mono s11'}, r.lab));
+      else s.append(el('text', {x: x2 + 6, y: y + rh / 2 + 4, class: 'tm mono s11'}, r.lab));
+    });
+    [['2026-11-13', 'Round One 13/11', 'var(--hot)', 'middle'], ['2026-12-13', 'Paris 13/12', 'var(--muted)', 'middle'], ['2027-01-15', 'Hạn cuối 15/01', 'var(--hot)', 'end']]
+      .forEach(([d, lab, c, anchor]) => {
+        const x = X(d + 'T12:00:00');
+        const l = el('line', {x1: x, x2: x, y1: top - 8, y2: yb, 'stroke-dasharray': '3 3'}); l.style.stroke = c; l.style.strokeWidth = 1.5; s.append(l);
+        s.append(fill(el('text', {x: anchor === 'end' ? x + 4 : x, y: top - 14, 'text-anchor': anchor, class: 's11 b'}, lab), c));
+      });
+    const now = Date.now();
+    if (now > t0 && now < t1) {
+      const x = X(now);
+      const l = el('line', {x1: x, x2: x, y1: top - 8, y2: yb}); l.style.stroke = 'var(--fg)'; l.style.strokeWidth = 1.5; s.append(l);
+      s.append(el('text', {x: x + 4, y: top - 14, class: 't s11 b'}, 'Hôm nay'));
+    }
+  });
+
+  // 4. climate share
+  const climates = [
+    {n: 'Fairbanks', sc: 20, pt: 39.9, c: 'var(--hot)', on: 'var(--on-hot)'},
+    {n: 'Phoenix', sc: 20, pt: 18.7, c: 'color-mix(in srgb, var(--slate) 78%, var(--surface))', on: 'var(--surface)'},
+    {n: 'Denver', sc: 20, pt: 16.1, c: 'color-mix(in srgb, var(--slate) 58%, var(--surface))', on: 'var(--fg)'},
+    {n: 'Atlanta', sc: 20, pt: 13.6, c: 'color-mix(in srgb, var(--slate) 40%, var(--surface))', on: 'var(--fg)'},
+    {n: 'Singapore', sc: 20, pt: 11.7, c: 'color-mix(in srgb, var(--slate) 24%, var(--surface))', on: 'var(--fg)'}
+  ];
+  const lg = document.getElementById('lg-share');
+  climates.forEach(c => { const sp = document.createElement('span'); const i = document.createElement('i'); i.style.background = c.c; sp.append(i, c.n); lg.append(sp); });
+  chart('c-share', (host, w) => {
+    const bh = 30, y1 = 20, y2 = y1 + bh + 40, h = y2 + bh + 22;
+    const s = svgFor(host, w, h, 'Fairbanks chiếm 20% số kịch bản nhưng khoảng 40% tổng điểm');
+    s.append(el('text', {x: 0, y: 13, class: 'tm s11'}, 'Số kịch bản'));
+    s.append(el('text', {x: 0, y: h - 4, class: 'tm s11'}, 'Phần trong tổng điểm'));
+    let a = 0, b = 0;
+    climates.forEach(c => {
+      const ax = w * a / 100, aw = w * c.sc / 100, bx = w * b / 100, bw2 = w * c.pt / 100;
+      s.append(fill(el('polygon', {points: `${ax},${y1 + bh} ${ax + aw},${y1 + bh} ${bx + bw2},${y2} ${bx},${y2}`}), `color-mix(in srgb, ${c.c} 30%, transparent)`));
+      s.append(fill(el('rect', {x: ax + .5, y: y1, width: aw - 1, height: bh}), c.c));
+      s.append(fill(el('rect', {x: bx + .5, y: y2, width: bw2 - 1, height: bh}), c.c));
+      if (aw > 34) s.append(fill(el('text', {x: ax + aw / 2, y: y1 + bh / 2 + 4, 'text-anchor': 'middle', class: 'mono s11 b'}, '20%'), c.on));
+      if (bw2 > 34) s.append(fill(el('text', {x: bx + bw2 / 2, y: y2 + bh / 2 + 4, 'text-anchor': 'middle', class: 'mono s11 b'}, Math.round(c.pt) + '%'), c.on));
+      a += c.sc; b += c.pt;
+    });
+  });
+
+  // 5. heatmap
+  chart('c-heat', (host, w) => {
+    const cl = ['Atlanta', 'Denver', 'Fairbanks', 'Phoenix', 'Singapore'], sh = ['ATL', 'DEN', 'FAI', 'PHX', 'SIN'];
+    const rows = [['Tòa 1', [.0218, .0250, .2141, .0594, .0247]], ['Tòa 2', [.0162, .0342, .0708, .0345, .0180]], ['Tòa 4', [.0243, .0520, .0248, .0221, .0256]],
+                  ['Tòa 5', [.0140, .0372, .0126, .0264, .0246]], ['Tòa 7', [.0465, .0189, .0539, .0257, .0215]], ['Tòa 8', [.0318, .0156, .0771, .0450, .0191]]];
+    const L = 50, top = 22, cw = (w - L) / 5, ch = 32, h = top + rows.length * ch + 2;
+    const s = svgFor(host, w, h, 'Điểm từng kịch bản theo tòa nhà và khí hậu');
+    const lo = Math.log(.0126), hi = Math.log(.2141);
+    (cw < 78 ? sh : cl).forEach((n, j) => s.append(el('text', {x: L + j * cw + cw / 2, y: 14, 'text-anchor': 'middle', class: 'tm s11' + (j === 2 ? ' b' : '')}, n)));
+    rows.forEach(([n, vs], i) => {
+      const y = top + i * ch;
+      s.append(el('text', {x: 0, y: y + ch / 2 + 3, class: 't s11'}, n));
+      vs.forEach((v, j) => {
+        const p = Math.round(6 + 94 * (Math.log(v) - lo) / (hi - lo));
+        s.append(fill(el('rect', {x: L + j * cw + 1.5, y: y + 1.5, width: cw - 3, height: ch - 3, rx: 3}), `color-mix(in oklab, var(--hot) ${p}%, var(--cell0))`));
+        s.append(fill(el('text', {x: L + j * cw + cw / 2, y: y + ch / 2 + 4, 'text-anchor': 'middle', class: 'mono s11' + (p > 70 ? ' b' : '')}, fmt(v, 3)), p > 58 ? 'var(--on-hot)' : 'var(--fg)'));
+      });
+    });
+  });
+
+  // 6. comfort penalty shape
+  chart('c-tail', (host, w) => {
+    const h = 196, pl = 34, pr = 14, top = 12, bot = 36;
+    const s = svgFor(host, w, h, 'Phạt tiện nghi: tuyến tính tới 5 K, sau đó bậc hai và không có trần');
+    const f = d => d <= 5 ? d : d + (d - 5) * (d - 5);
+    const x = d => pl + (w - pl - pr) * d / 10, y = v => top + (h - top - bot) * (1 - v / 35);
+    [0, 2, 4, 6, 8, 10].forEach(t => s.append(el('text', {x: x(t), y: h - 18, 'text-anchor': 'middle', class: 'tm mono s11'}, t)));
+    s.append(el('text', {x: (pl + w - pr) / 2, y: h - 3, 'text-anchor': 'middle', class: 'tm s11'}, 'lệch khỏi dải tiện nghi (K)'));
+    s.append(el('line', {x1: pl, x2: w - pr, y1: y(0), y2: y(0), class: 'ax'}));
+    s.append(el('line', {x1: pl, x2: pl, y1: top, y2: y(0), class: 'ax'}));
+    const yl = el('text', {x: 0, y: 0, transform: `translate(12 ${(top + y(0)) / 2}) rotate(-90)`, 'text-anchor': 'middle', class: 'tm s11'}, 'phạt'); s.append(yl);
+    const v5 = el('line', {x1: x(5), x2: x(5), y1: top, y2: y(0), 'stroke-dasharray': '3 3', class: 'ax'}); s.append(v5);
+    s.append(el('text', {x: x(5) + 4, y: top + 10, class: 'tm mono s11'}, '5 K'));
+    const seg = (a, b, c, wd) => { let d = ''; for (let k = 0; k <= 40; k++) { const t = a + (b - a) * k / 40; d += (k ? 'L' : 'M') + x(t).toFixed(1) + ' ' + y(f(t)).toFixed(1); }
+      const p = el('path', {d, fill: 'none'}); p.style.stroke = c; p.style.strokeWidth = wd; p.style.strokeLinecap = 'round'; s.append(p); };
+    seg(0, 5, 'var(--slate)', 3); seg(5, 10, 'var(--hot)', 3.5);
+    s.append(el('text', {x: x(2.5), y: y(f(2.5)) - 10, 'text-anchor': 'middle', class: 'tm s11'}, 'tuyến tính'));
+    s.append(fill(el('text', {x: x(9.6) - 8, y: y(f(9.6)) + 4, 'text-anchor': 'end', class: 's11 b'}, 'bậc hai, không trần'), 'var(--hot)'));
+  });
+
+  // 7. signal vs noise
+  chart('c-noise', (host, w) => {
+    const rows = [{n: 'Giữ AHU lạnh 24 h', v: 45.3}, {n: 'Giữ AHU lạnh 2 h', v: 36.8}, {n: 'Giữ mọi AHU 30 phút', v: 14.4},
+                  {n: 'Nhóm null (4 lần)', nul: [-1.1, -.1, .4, .8]}, {n: 'Reset áp suất quạt', v: -1.3}, {n: 'Trễ bật AHU, nhẹ', v: -6.1}, {n: 'Trễ bật AHU, mạnh', v: -48.7}];
+    const L = Math.min(142, w * .4), R = 10, top = 6, rh = 26, h = top + rows.length * rh + 34;
+    const s = svgFor(host, w, h, 'Mức cải thiện của từng thay đổi so với dải nhiễu');
+    const x = v => L + (w - L - R) * (v + 55) / 110, yb = top + rows.length * rh;
+    s.append(fill(el('rect', {x: x(-6), y: top, width: x(6) - x(-6), height: rows.length * rh}), 'color-mix(in srgb, var(--slate) 18%, transparent)'));
+    [-50, -25, 0, 25, 50].forEach(t => {
+      s.append(el('line', {x1: x(t), x2: x(t), y1: top, y2: yb, class: t ? 'gl' : 'ax'}));
+      s.append(el('text', {x: x(t), y: yb + 15, 'text-anchor': 'middle', class: 'tm mono s11'}, (t > 0 ? '+' : '') + t + '%'));
+    });
+    s.append(el('text', {x: x(-55), y: h - 3, class: 'tm s11'}, '← tệ hơn'));
+    s.append(el('text', {x: x(55), y: h - 3, 'text-anchor': 'end', class: 'tm s11'}, 'tốt hơn →'));
+    rows.forEach((r, i) => {
+      const y = top + i * rh + rh / 2;
+      s.append(el('text', {x: L - 8, y: y + 4, 'text-anchor': 'end', class: r.nul ? 'tm s11' : 't s11'}, r.n));
+      if (r.nul) { r.nul.forEach(v => { const c = el('circle', {cx: x(v), cy: y, r: 4, fill: 'none'}); c.style.stroke = 'var(--muted)'; c.style.strokeWidth = 1.5; s.append(c); }); return; }
+      const col = r.v > 6 ? 'var(--comfort)' : r.v < -6 ? 'var(--hot)' : 'var(--slate)';
+      s.append(fill(el('circle', {cx: x(r.v), cy: y, r: 5.5}), col));
+      const right = r.v >= 0 ? r.v < 30 : r.v < -30;
+      const lab = (r.v > 0 ? '+' : '−') + Math.round(Math.abs(r.v)) + '%';
+      s.append(fill(el('text', {x: x(r.v) + (right ? 10 : -10), y: y + 4, 'text-anchor': right ? 'start' : 'end', class: 'mono s11 b'}, lab), col));
+    });
+  });
+
+  // checklists (per-viewer, browser only)
+  const KEY = 'sb26-roadmap-tasks';
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  const refresh = () => document.querySelectorAll('.phase').forEach(ph => {
+    const boxes = ph.querySelectorAll('input[type=checkbox]'), done = [...boxes].filter(b => b.checked).length;
+    ph.querySelector('.meter i').style.width = (100 * done / boxes.length) + '%';
+    ph.querySelector('.m-txt').textContent = `${done}/${boxes.length}`;
+  });
+  document.querySelectorAll('.phase input[type=checkbox]').forEach(b => {
+    b.checked = !!saved[b.id];
+    b.addEventListener('change', () => {
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      refresh();
+    });
+  });
+  refresh();
+})();
+</script>
+
+</body>
+</html>
